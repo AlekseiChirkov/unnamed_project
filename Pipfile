@@ -8,6 +8,8 @@ django = "*"
 gunicorn = "*"
 psycopg2 = "*"
 whitenoise = "*"
+python-decouple= "3.3"
+
 
 [requires]
 python_version = "3.8.6"
