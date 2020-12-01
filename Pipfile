@@ -8,7 +8,7 @@ django = "*"
 gunicorn = "*"
 psycopg2 = "*"
 whitenoise = "*"
-python-decouple= "3.3"
+python-decouple= "*"
 
 
 [requires]
