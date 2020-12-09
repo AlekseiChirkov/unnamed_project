@@ -50,6 +50,8 @@ INSTALLED_APPS = [
     # apps
     'users.apps.UsersConfig',
     'accountant',
+    'news.apps.NewsConfig',
+
 ]
 
 MIDDLEWARE = [
@@ -109,7 +111,6 @@ REST_FRAMEWORK = {
     ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
-        'rest_framework.authentication.TokenAuthentication',
     )
 }
 
