@@ -49,7 +49,9 @@ INSTALLED_APPS = [
 
     # apps
     'users.apps.UsersConfig',
+    'accountant',
     'news.apps.NewsConfig',
+
 ]
 
 MIDDLEWARE = [
