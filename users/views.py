@@ -18,7 +18,6 @@ class RegisterAPIView(generics.GenericAPIView):
             user = serializer.save()
             data['response'] = 'Successfully created a new user.'
             data['username'] = user.username
-            data['token'] = user.token
         else:
             data = serializer.errors
         return Response(data)
