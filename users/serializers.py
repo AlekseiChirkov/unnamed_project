@@ -8,14 +8,6 @@ from .models import Profile
 
 
 class RegisterSerializer(serializers.ModelSerializer):
-    email = serializers.CharField(max_length=150)
-    home_address = serializers.CharField(max_length=250)
-    city = serializers.CharField(max_length=100)
-    region = serializers.CharField(max_length=250)
-    country = serializers.CharField(max_length=250)
-    phone = serializers.CharField(max_length=16)
-    age = serializers.DateField()
-
     password = serializers.CharField(
         max_length=128, min_length=8,
         style={'input_type': 'password'},
