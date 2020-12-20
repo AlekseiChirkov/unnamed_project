@@ -18,7 +18,6 @@ from decouple import config
 from datetime import timedelta
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-# from django.conf.global_settings import DATABASES
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -53,11 +52,14 @@ INSTALLED_APPS = [
     'accountant',
     'news.apps.NewsConfig',
 
+    # cors
+    'corsheaders',
 ]
 
 AUTH_USER_MODEL = 'users.User'
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -67,6 +69,14 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
+]
+
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
+CORS_ORIGIN_WHITELIST = [
+    'http://localhost:3000',
+    'http://localhost:3001',
+    'http://localhost:8000',
 ]
 
 ROOT_URLCONF = 'unnamed_project.urls'
@@ -109,7 +119,6 @@ else:
     }
 
 # Parse database configuration from $DATABASE_URL
-# DATABASES['default'] = dj_database_url.config()
 
 # Rest Framework
 
