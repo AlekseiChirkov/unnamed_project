@@ -7,7 +7,7 @@ class Profile(models.Model):
     username = models.CharField(max_length=100, db_index=True)
     first_name = models.CharField(max_length=100, db_index=True)
     last_name = models.CharField(max_length=100, db_index=True)
-    email = models.EmailField(max_length=100, db_index=True)
+    email = models.EmailField(max_length=150, db_index=True)
     home_address = models.CharField(max_length=250)
     city = models.CharField(max_length=100)
     region = models.CharField(max_length=250)
