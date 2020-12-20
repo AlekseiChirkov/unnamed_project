@@ -91,17 +91,22 @@ WSGI_APPLICATION = 'unnamed_project.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': config('DB_NAME'),
-        'USER': config('DB_USER'),
-        'PASSWORD': config('DB_PASS'),
-        'HOST': config('DB_HOST'),
-        'PORT': config('DB_PORT')
+DEPLOY = False
+if DEPLOY:
+    DATABASES = {
+        'default': dj_database_url.config(default=config('DATABASE_URL'))
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': config('DB_NAME'),
+            'USER': config('DB_USER'),
+            'PASSWORD': config('DB_PASS'),
+            'HOST': config('DB_HOST'),
+            'PORT': config('DB_PORT')
+        }
+    }
 
 # Parse database configuration from $DATABASE_URL
 # DATABASES['default'] = dj_database_url.config()
