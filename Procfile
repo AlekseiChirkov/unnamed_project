@@ -1,1 +1,1 @@
-web: gunicorn unnamed_project.wsgi
+web: gunicorn meetuppizza.wsgi --log-file -
