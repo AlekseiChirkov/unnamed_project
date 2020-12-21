@@ -26,7 +26,7 @@ class RegisterAPIView(generics.GenericAPIView):
 class ProfileAPIView(generics.GenericAPIView):
     serializer_class = ProfileSerializer
     queryset = Profile.objects.all()
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (AllowAny,)
 
     def get(self, request):
         profile = self.queryset.all()
