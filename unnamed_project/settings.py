@@ -55,7 +55,7 @@ INSTALLED_APPS = [
     'django_rest_passwordreset',
 
     # django filters
-    'django_filters',
+    # 'django_filters',
 
     # apps
     'users.apps.UsersConfig',
