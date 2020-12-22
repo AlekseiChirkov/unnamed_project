@@ -69,6 +69,7 @@ uritemplate="*"
 urllib3="*"
 virtualenv="*"
 whitenoise="*"
+pillow="*"
 
 
 [requires]
