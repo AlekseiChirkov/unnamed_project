@@ -18,7 +18,7 @@ from decouple import config
 from datetime import timedelta
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-# from django.conf.global_settings import DATABASES
+from django.conf.global_settings import DATABASES
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -47,15 +47,16 @@ INSTALLED_APPS = [
     # libraries and frameworks
     'rest_framework',
     'rest_framework.authtoken',
+    'drf_yasg',
 
     # apps
-    'users.apps.UsersConfig',
+    'authentication.apps.UsersConfig',
     'accountant',
     'news.apps.NewsConfig',
 
 ]
 
-AUTH_USER_MODEL = 'users.User'
+AUTH_USER_MODEL = 'authentication.User'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -91,35 +92,37 @@ WSGI_APPLICATION = 'unnamed_project.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
-DEPLOY = False
-if DEPLOY:
-    DATABASES = {
-        'default': dj_database_url.config(default=config('DATABASE_URL'))
-    }
-else:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': config('DB_NAME'),
-            'USER': config('DB_USER'),
-            'PASSWORD': config('DB_PASS'),
-            'HOST': config('DB_HOST'),
-            'PORT': config('DB_PORT')
-        }
-    }
+# DEPLOY = False
+# if DEPLOY:
+#     DATABASES = {
+#         'default': dj_database_url.config(default=config('DATABASE_URL'))
+#     }
+# else:
+#     DATABASES = {
+#         'default': {
+#             'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#             'NAME': config('DB_NAME'),
+#             'USER': config('DB_USER'),
+#             'PASSWORD': config('DB_PASS'),
+#             'HOST': config('DB_HOST'),
+#             'PORT': config('DB_PORT')
+#         }
+#     }
 
 # # Parse database configuration from $DATABASE_URL
-# DATABASES['default'] = dj_database_url.config()
+DATABASES['default'] = dj_database_url.config()
 
 # Rest Framework
 
 REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticated',
-    ),
+    'NON_FIELD_ERRORS_KEY': 'error',
+
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
-    )
+    ),
+    # 'DEFAULT_PERMISSION_CLASSES': (
+    #     'rest_framework.permissions.IsAuthenticated',
+    # )
 }
 
 # Simple JWT settings
@@ -156,7 +159,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Bishkek'
 
 USE_I18N = True
 
