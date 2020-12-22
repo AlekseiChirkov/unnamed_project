@@ -1,28 +1,38 @@
-from django.http import JsonResponse
-from rest_framework import status, generics
+from django.http import HttpResponse, Http404, JsonResponse
+from django.core.mail import EmailMessage
+from django.shortcuts import redirect
+from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
+from django.contrib.auth import login
+from django.utils.encoding import force_bytes, force_text
+from django.template.loader import render_to_string
+from django.contrib.sites.shortcuts import get_current_site
+from rest_framework import status, viewsets, generics
 from rest_framework.views import APIView
+from rest_framework.filters import SearchFilter
 from rest_framework.response import Response
 from rest_framework.generics import RetrieveUpdateAPIView
+from rest_framework.exceptions import ParseError
 from rest_framework.permissions import AllowAny, IsAuthenticated
 
+from .tokens import account_activation_token
 from .permissions import IsOwnerOrReadOnly
 from .serializers import *
 
 
-# def activate(request, uid64, token):
-#     try:
-#         uid = force_text(urlsafe_base64_decode(uid64))
-#         user = User.objects.get(pk=uid)
-#     except (TypeError, ValueError, OverflowError, User.DoesNotExist):
-#         user = None
-#
-#     if user is not None and account_activation_token.check_token(user, token):
-#         user.is_active = True
-#         user.save()
-#         login(request, user)
-#         return redirect('https://www.vrmates.co/confirm')
-#     else:
-#         return HttpResponse('The link is inactive')
+def activate(request, uid64, token):
+    try:
+        uid = force_text(urlsafe_base64_decode(uid64))
+        user = User.objects.get(pk=uid)
+    except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+
+    if user is not None and account_activation_token.check_token(user, token):
+        user.is_active = True
+        user.save()
+        login(request, user)
+        return redirect('https://www.vrmates.co/confirm')
+    else:
+        return HttpResponse('The link is inactive')
 
 
 class RegistrationAPIView(APIView):
@@ -36,6 +46,19 @@ class RegistrationAPIView(APIView):
             user = serializer.save()
             user.is_active = False
             user.save()
+            current_site = get_current_site(request)
+            mail_subject = 'Email verification'
+            message = render_to_string('users/acc_active_email.html', {
+                'user': user,
+                'domain': current_site.domain,
+                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                'token': account_activation_token.make_token(user),
+            })
+            to_email = serializer.data.get('email')
+            email = EmailMessage(
+                mail_subject, message, to=[to_email]
+            )
+            email.send()
             data['response'] = "Successfully created a new user. Please check your email and verify your account."
             data['email'] = user.email
             data['token'] = user.token
