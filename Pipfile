@@ -19,6 +19,7 @@ pyJWT = "*"
 python-dateutil = "*"
 sqlparse = "*"
 urllib3 = "*"
+drf-yasg = "*"
 
 [requires]
 python_version = "3.8.6"
