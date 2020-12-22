@@ -15,10 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from rest_framework_simplejwt.views import (
-    TokenObtainPairView,
-    TokenRefreshView
-)
+
 
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
@@ -42,10 +39,8 @@ urlpatterns = [
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
 
     path('admin/', admin.site.urls),
-    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 
-    path('api/auth/', include('authentication.urls')),
+    path('api/auth/', include('users.urls')),
     path('api/accountant/', include('accountant.urls')),
 
 

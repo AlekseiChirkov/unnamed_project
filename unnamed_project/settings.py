@@ -15,7 +15,6 @@ import django_heroku
 import dj_database_url
 
 from decouple import config
-from datetime import timedelta
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 # from django.conf.global_settings import DATABASES
@@ -49,16 +48,43 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'drf_yasg',
 
+    # django-rest-auth
+    'rest_auth',
+
+    # reset password
+    'django_rest_passwordreset',
+
+    # django filters
+    'django_filters',
+
     # apps
-    'authentication.apps.UsersConfig',
+    'users.apps.UsersConfig',
     'accountant',
     'news.apps.NewsConfig',
 
+    # cors
+    'corsheaders',
 ]
 
-AUTH_USER_MODEL = 'authentication.User'
+
+AUTH_USER_MODEL = 'users.User'
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'users.backends.JWTAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ),
+    'EXCEPTION_HANDLER': 'users.exceptions.user_exception_handler',
+    'NON_FIELD_ERRORS_KEY': 'error',
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
+}
+
+DJANGO_REST_PASSWORDRESET_TOKEN_CONFIG = {
+    "CLASS": "django_rest_passwordreset.tokens.RandomStringTokenGenerator"
+}
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -68,6 +94,15 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
+]
+
+# APPEND_SLASH = False
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
+CORS_ORIGIN_WHITELIST = [
+    'http://localhost:3000',
+    'http://localhost:3001',
+    'http://localhost:8000',
 ]
 
 ROOT_URLCONF = 'unnamed_project.urls'
@@ -109,33 +144,6 @@ else:
             'PORT': config('DB_PORT')
         }
     }
-
-# # Parse database configuration from $DATABASE_URL
-# DATABASES['default'] = dj_database_url.config()
-
-# Rest Framework
-
-REST_FRAMEWORK = {
-    'NON_FIELD_ERRORS_KEY': 'error',
-
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
-    ),
-    # 'DEFAULT_PERMISSION_CLASSES': (
-    #     'rest_framework.permissions.IsAuthenticated',
-    # )
-}
-
-# Simple JWT settings
-SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=10),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
-    'ROTATE_REFRESH_TOKENS': False,
-    'UPDATE_LAST_LOGIN': True,
-    'AUTH_TOKEN_CLASSES': (
-        'rest_framework_simplejwt.tokens.AccessToken',
-    ),
-}
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
