@@ -25,7 +25,7 @@ class RegisterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        exclude = ('last_login',)
+        exclude = ('last_login', 'groups', 'user_permissions')
         extra_kwargs = {
             'password': {'write_only': True},
         }
@@ -72,8 +72,7 @@ class RegisterSerializer(serializers.ModelSerializer):
 class ProfileSerializer(serializers.ModelSerializer):
     age = serializers.SerializerMethodField()
     email = serializers.EmailField(max_length=255, min_length=8)
-    password = serializers.CharField(max_length=68, min_length=8, write_only=True)
-    username = serializers.CharField(max_length=100, min_length=3, read_only=True)
+    password = serializers.CharField(max_length=128,min_length=8,write_only=True)
 
     class Meta:
         model = Profile
@@ -88,7 +87,7 @@ class LoginSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(max_length=255, min_length=8)
     password = serializers.CharField(max_length=68, min_length=8, write_only=True)
     username = serializers.CharField(max_length=100, min_length=3, read_only=True)
-    tokens = serializers.CharField(max_length=256, read_only=True)
+    tokens = serializers.CharField(max_length=256, min_length=6, read_only=True)
 
     class Meta:
         model = User
@@ -110,7 +109,7 @@ class LoginSerializer(serializers.ModelSerializer):
         return {
             'email': user.email,
             'username': user.username,
-            'token': user.tokens(),
+            'tokens': user.tokens,
         }
 
         return super().validate(attrs)

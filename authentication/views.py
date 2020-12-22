@@ -32,11 +32,8 @@ class LoginAPIView(generics.GenericAPIView):
 
 
 class ProfileView(generics.GenericAPIView):
-    authentication_classes = (SessionAuthentication, TokenAuthentication,)
     serializer_class = ProfileSerializer
-    permission_classes = (IsAuthenticated,)
 
     def get(self, request):
-        profile = self.queryset.all()
-        serializer = self.serializer_class(profile, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        serializer = self.serializer_class(request.user)
+        return Response(serializer.data)

@@ -92,7 +92,8 @@ WSGI_APPLICATION = 'unnamed_project.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
-DEPLOY = False
+
+DEPLOY = config('DEPLOY', cast=bool)
 if DEPLOY:
     DATABASES = {
         'default': dj_database_url.config(default=config('DATABASE_URL'))
