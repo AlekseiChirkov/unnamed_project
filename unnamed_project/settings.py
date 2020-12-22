@@ -18,7 +18,7 @@ from decouple import config
 from datetime import timedelta
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-from django.conf.global_settings import DATABASES
+# from django.conf.global_settings import DATABASES
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -92,6 +92,7 @@ WSGI_APPLICATION = 'unnamed_project.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
+
 DEPLOY = config('DEPLOY', cast=bool)
 if DEPLOY:
     DATABASES = {
