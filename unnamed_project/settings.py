@@ -55,7 +55,7 @@ INSTALLED_APPS = [
     'django_rest_passwordreset',
 
     # django filters
-    'django_filters',
+    # 'django_filters',
 
     # apps
     'users.apps.UsersConfig',
@@ -76,7 +76,6 @@ REST_FRAMEWORK = {
     ),
     'EXCEPTION_HANDLER': 'users.exceptions.user_exception_handler',
     'NON_FIELD_ERRORS_KEY': 'error',
-    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
 }
 
 DJANGO_REST_PASSWORDRESET_TOKEN_CONFIG = {

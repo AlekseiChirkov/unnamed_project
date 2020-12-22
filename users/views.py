@@ -1,14 +1,6 @@
-from django.http import HttpResponse, Http404, JsonResponse
-from django.core.mail import EmailMessage
-from django.shortcuts import redirect
-from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
-from django.contrib.auth import login
-from django.utils.encoding import force_bytes, force_text
-from django.template.loader import render_to_string
-from django.contrib.sites.shortcuts import get_current_site
-from rest_framework import status, viewsets, generics
+from django.http import JsonResponse
+from rest_framework import status, generics
 from rest_framework.views import APIView
-from rest_framework.filters import SearchFilter
 from rest_framework.response import Response
 from rest_framework.generics import RetrieveUpdateAPIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
@@ -110,5 +102,4 @@ class CurrentUserView(APIView):
 class UserListAPIView(generics.ListAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    filter_backends = (SearchFilter, )
     search_fields = ('email', )
