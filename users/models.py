@@ -25,6 +25,7 @@ class MyUserManager(BaseUserManager):
             username=username,
             email=self.normalize_email(email),
         )
+        user.is_active = True
         user.set_password(password)
         user.save(using=self._db)
         return user
@@ -47,6 +48,7 @@ class MyUserManager(BaseUserManager):
 
 
 class User(AbstractBaseUser, PermissionsMixin):
+    DoesNotExist = None
     USER_GENDER = (
         ('Male', 'Male'),
         ('Female', 'Female'),
@@ -96,3 +98,46 @@ class User(AbstractBaseUser, PermissionsMixin):
             'exp': dt.utcfromtimestamp(dt.timestamp())
         }, settings.SECRET_KEY, algorithm='HS256')
         return token.decode('utf-8')
+
+
+@receiver(reset_password_token_created)
+def password_reset_token_created(sender, instance, reset_password_token, *args, **kwargs):
+    # send an e-mail to the user
+    context = {
+        'current_user': reset_password_token.user,
+        'username': reset_password_token.user.username,
+        'email': reset_password_token.user.email,
+        'reset_password_url': "https://vrmates.co/change-password/?token={token}".format(token=reset_password_token.key)
+    }
+
+    # render email text
+    email_html_message = render_to_string('users/user_reset_password.html', context)
+    email_plaintext_message = render_to_string('users/user_reset_password.txt', context)
+
+    msg = EmailMultiAlternatives(
+        # title:
+        "Password Reset for {title}".format(title="Some website title"),
+        # message:
+        email_plaintext_message,
+        # from:
+        "noreply@somehost.local",
+        # to:
+        [reset_password_token.user.email]
+    )
+    msg.attach_alternative(email_html_message, "text/html")
+    msg.send()
+
+
+@receiver(post_save, sender=User)
+def banned_notifications(sender, instance, created, **kwargs):
+    if instance.is_banned:
+        instance.is_active = False
+        mail_subject = 'Your account has been banned | Vrmates team'
+        message = render_to_string('users/account_ban.html', {
+            'user': instance.first_name
+        })
+        to_email = instance.email
+        email = EmailMessage(
+            mail_subject, message, to=[to_email]
+        )
+        email.send()
