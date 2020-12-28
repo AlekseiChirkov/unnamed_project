@@ -42,6 +42,6 @@ urlpatterns = [
 
     path('api/auth/', include('users.urls')),
     path('api/accountant/', include('accountant.urls')),
-
+    path('api/news/', include('news.urls'))
 
 ]

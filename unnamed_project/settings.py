@@ -59,7 +59,7 @@ INSTALLED_APPS = [
 
     # apps
     'users.apps.UsersConfig',
-    'accountant',
+    'accountant.apps.AccountantConfig',
     'news.apps.NewsConfig',
 
     # cors
