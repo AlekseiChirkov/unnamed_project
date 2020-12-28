@@ -1,5 +1,4 @@
 from django.http import Http404
-from django.shortcuts import get_object_or_404
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 from rest_framework.exceptions import ParseError
@@ -23,17 +22,6 @@ class NewsViewSet(viewsets.ModelViewSet):
         serializer.is_valid(raise_exception=True)
         serializer.save(requester=self.request.user)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-    # def update(self, request, *args, **kwargs):
-    #     partial = True
-    #     instance = self.get_object()
-    #     serializer = self.get_serializer(instance, data=request.data, partial=partial)
-    #     serializer.is_valid(raise_exception=True)
-    #     self.perform_update(serializer)
-    #     user = request.user
-    #     news = get_object_or_404(News, id=request.data.get('id'))
-    #
-    #     return Response(serializer.data, status=status.HTTP_200_OK)
 
     def delete(self, request):
         pk = request.data.get('id', None)

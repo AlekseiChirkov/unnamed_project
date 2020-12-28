@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import News, NewsImage
-from users import UserSerializer
+from users.serializers import UserSerializer
 
 
 class NewsImageSerializer(serializers.ModelSerializer):
@@ -29,7 +29,7 @@ class NewsSerializer(serializers.ModelSerializer):
 
 
 class NewsReadableSerializer(serializers.ModelSerializer):
-    requester = UserSerializer()
+    user = UserSerializer()
     images = NewsImageSerializer(many=True, required=False)
 
     class Meta:
