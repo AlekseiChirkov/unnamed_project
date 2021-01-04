@@ -186,10 +186,9 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # django_heroku.settings(locals())
 
 
-# Email confirmation
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-# EMAIL_USE_TLS = True
-# EMAIL_HOST = 'smtp.gmail.com'
-# EMAIL_HOST_USER = config('EMAIL_HOST_USER')
-# EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
-# EMAIL_PORT = 587
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'tektonikboy98@gmail.com'  # 'neobis.airpack@gmail.com'
+EMAIL_HOST_PASSWORD = 'whbwxkyljpqwzykz'  # 'mekqjfeygecwdtef'
+EMAIL_PORT = 587
