@@ -1,10 +1,9 @@
+from django.conf.urls import url
 from django.urls import path, include
 
 from .views import *
 
-
 app_name = 'users'
-
 
 urlpatterns = [
     path('users/', UserRetrieveUpdateAPIView.as_view(), name='users'),
@@ -16,6 +15,7 @@ urlpatterns = [
     path('users/search/', UserListAPIView.as_view(), name='user-search'),
 
     # email verification
-    # url(r'backend/activate/(?P<uid64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
-    #     activate, name='activate'),
+    path(r'backend/activate/<uid64>/<token>/',
+         activate, name='activate'),
 ]
+# (?P<uid64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/

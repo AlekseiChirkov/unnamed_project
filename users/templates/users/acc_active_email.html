@@ -1,0 +1,10 @@
+{% autoescape off %}
+Dear {{ user.first_name }},
+
+Welcome to LK! We are honored and pleased to see you as a member of our community.
+We hope you will have the best experience using our platform.
+verify your e-mail by clicking https://{{ domain }}{% url 'users:activate' uid64=uid token=token %}
+
+Best Regards,
+LK Team
+{% endautoescape %}
