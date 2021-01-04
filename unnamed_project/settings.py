@@ -67,6 +67,7 @@ INSTALLED_APPS = [
     'corsheaders',
 ]
 
+SITE_ID = 1
 
 AUTH_USER_MODEL = 'users.User'
 

@@ -28,7 +28,7 @@ def activate(request, uid64, token):
         user.is_active = True
         user.save()
         login(request, user)
-        return redirect('https://www.vrmates.co/confirm')
+        return redirect('https://newnorma.tmg.kg/')
     else:
         return HttpResponse('The link is inactive')
 
