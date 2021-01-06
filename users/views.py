@@ -1,6 +1,6 @@
 from django.http import HttpResponse, JsonResponse
 from django.core.mail import EmailMessage
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.contrib.auth import login
 from django.utils.encoding import force_bytes, force_text
@@ -28,7 +28,7 @@ def activate(request, uid64, token):
         user.is_active = True
         user.save()
         login(request, user)
-        return redirect('https://newnorma.tmg.kg/')
+        return HttpResponse('Account has been activated')
     else:
         return HttpResponse('The link is inactive')
 
