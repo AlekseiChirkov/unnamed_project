@@ -8,7 +8,7 @@ from .serializers import *
 
 
 class NewsViewSet(viewsets.ModelViewSet):
-    permission_classes = (IsAuthenticated,)
+    #permission_classes = (IsAuthenticated,)
     queryset = News.objects.filter(published=True)
     serializer_class = NewsSerializer
 
@@ -37,7 +37,7 @@ class NewsViewSet(viewsets.ModelViewSet):
 
 
 class NewsImageViewSet(viewsets.ModelViewSet):
-    permission_classes = (IsAuthenticated,)
+    # permission_classes = (IsAuthenticated,)
     queryset = NewsImage.objects.all()
     serializer_class = NewsImageSerializer
 
