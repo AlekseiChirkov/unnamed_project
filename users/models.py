@@ -65,6 +65,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     state = models.CharField(max_length=128, null=True, blank=True)
     city = models.CharField(max_length=128, null=True, blank=True)
     address = models.CharField(max_length=128, null=True, blank=True)
+    avatar = models.ImageField(upload_to='media/users/avatars')
     is_banned = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
@@ -107,7 +108,7 @@ def password_reset_token_created(sender, instance, reset_password_token, *args, 
         'current_user': reset_password_token.user,
         'username': reset_password_token.user.username,
         'email': reset_password_token.user.email,
-        'reset_password_url': "https://vrmates.co/change-password/?token={token}".format(token=reset_password_token.key)
+        'reset_password_url': "http://localhost:8000/change-password/?token={token}".format(token=reset_password_token.key)
     }
 
     # render email text
