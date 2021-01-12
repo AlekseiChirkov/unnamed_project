@@ -80,10 +80,6 @@ REST_FRAMEWORK = {
     'NON_FIELD_ERRORS_KEY': 'error',
 }
 
-DJANGO_REST_PASSWORDRESET_TOKEN_CONFIG = {
-    "CLASS": "django_rest_passwordreset.tokens.RandomStringTokenGenerator"
-}
-
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
