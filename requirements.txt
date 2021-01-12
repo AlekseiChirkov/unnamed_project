@@ -10,12 +10,14 @@ coverage==5.3.1
 cryptography==3.3.1
 defusedxml==0.6.0
 distlib==0.3.1
+dj-database-url==0.5.0
 Django==3.1.4
 django-3-jet==1.0.8
 django-allauth==0.42.0
 django-cors-headers==3.6.0
 django-email-verification==0.0.7
 django-filter==2.4.0
+django-heroku==0.3.1
 django-jet==1.0.8
 django-rest-auth==0.9.5
 django-rest-passwordreset==1.1.0
@@ -23,6 +25,7 @@ djangorestframework==3.11.0
 djangorestframework-jwt==1.11.0
 djangorestframework-simplejwt==4.6.0
 drf-yasg==1.20.0
+et-xmlfile==1.0.1
 filelock==3.0.12
 google-api-core==1.24.1
 google-api-python-client==1.12.8
@@ -34,15 +37,19 @@ httplib2==0.18.1
 idna==2.10
 inflection==0.5.1
 itypes==1.2.0
+jdcal==1.4.1
 Jinja2==2.11.2
 Markdown==3.3.3
 MarkupSafe==1.1.1
 numpy==1.19.0
 oauthlib==3.1.0
 opencv-python==4.2.0.34
+openpyxl==3.0.5
 packaging==20.8
+pandas==1.2.0
 Pillow==7.1.2
 protobuf==3.13.0
+psycopg2==2.8.5
 pyasn1==0.4.8
 pyasn1-modules==0.2.8
 pycparser==2.20
@@ -65,3 +72,4 @@ uritemplate==3.0.1
 urllib3==1.25.10
 virtualenv==20.0.21
 whitenoise==5.1.0
+xlrd==2.0.1
