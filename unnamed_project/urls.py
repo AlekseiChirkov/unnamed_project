@@ -37,15 +37,21 @@ schema_view = get_schema_view(
 )
 
 urlpatterns = [
+    # Swagger
     path('', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
 
+    # Admin
     path('admin/', admin.site.urls),
 
+    # Apps
     path('api/auth/', include('users.urls')),
     path('api/accountant/', include('accountant.urls')),
-    path('api/news/', include('news.urls'))
+    path('api/reports/', include('reports.urls')),
+    path('api/news/', include('news.urls')),
 
+    # Rest Framework
+    path('rest-framework/auth/', include('rest_framework.urls')),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -11,8 +11,13 @@ urlpatterns = [
     path('users/update/', UserUpdateAPIView.as_view(), name='update_user'),
     path('users/registration/', RegistrationAPIView.as_view(), name='registration'),
     path('users/login/', LoginAPIView.as_view(), name='login'),
-    path('users/password-reset/', include('django_rest_passwordreset.urls', namespace='password_reset')),
     path('users/search/', UserListAPIView.as_view(), name='user-search'),
+    path('request-password-reset/', RequestPasswordResetEmailGenericAPIView.as_view(),
+         name="request-password-reset"),
+    path('password-reset-confirm/<uidb64>/<token>/',
+         PasswordTokenCheckGenericAPIView.as_view(), name='password-reset-confirm'),
+    path('password-reset-complete/', SetNewPasswordAPIView.as_view(),
+         name='password-reset-complete'),
 
     # email verification
     path(r'backend/activate/<uid64>/<token>/',

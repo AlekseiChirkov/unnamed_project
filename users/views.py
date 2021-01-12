@@ -63,9 +63,10 @@ class RegistrationAPIView(APIView):
             data['response'] = "Successfully created a new user. Please check your email and verify your account."
             data['email'] = user.email
             data['token'] = user.token
+            return Response(data, status=status.HTTP_400_BAD_REQUEST)
         else:
             data = serializer.errors
-        return Response(data)
+            return Response(data, status=status.HTTP_400_BAD_REQUEST)
 
 
 class RequestPasswordResetEmailGenericAPIView(generics.GenericAPIView):
@@ -79,22 +80,19 @@ class RequestPasswordResetEmailGenericAPIView(generics.GenericAPIView):
             user = User.objects.get(email=email)
             uidb64 = urlsafe_base64_encode(smart_bytes(user.id))
             token = PasswordResetTokenGenerator().make_token(user)
-            current_site = get_current_site(
-                request=request).domain
-            relativeLink = reverse(
-                'password-reset-confirm', kwargs={'uidb64': uidb64, 'token': token})
-
+            current_site = get_current_site(request=request).domain
             redirect_url = request.data.get('redirect_url', '')
-            absurl = 'http://' + current_site + relativeLink
+            absurl = 'http://' + current_site
             email_body = f'Hello, {user.first_name.title()} \n' \
-                         f'Use this link below to reset your password  \n' + absurl + "?redirect_url=" + redirect_url
+                         f'Use this link below to reset your password  \n'\
+                         + absurl + f'/api/auth/password-reset-confirm/<{uidb64}>/<{token}>/'
             data = {'email_body': email_body, 'to_email': user.email,
-                    'email_subject': 'Reset your passsword'}
+                    'email_subject': 'Reset your password'}
             Util.send_email(data)
         return Response({'success': 'We have sent you a link to reset your password'}, status=status.HTTP_200_OK)
 
 
-class PasswordTokenCheckAPI(generics.GenericAPIView):
+class PasswordTokenCheckGenericAPIView(generics.GenericAPIView):
     serializer_class = SetNewPasswordSerializer
 
     def get(self, request, uidb64, token):
