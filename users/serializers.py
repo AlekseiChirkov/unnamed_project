@@ -163,7 +163,7 @@ class SetNewPasswordSerializer(serializers.Serializer):
             return user
 
         except Exception as e:
-            raise AuthenticationFailed('The reset links is invalid', 401)
+            raise AuthenticationFailed('The reset link is invalid', 401)
 
 
 class EmailVerificationSerializer(serializers.ModelSerializer):
