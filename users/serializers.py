@@ -66,6 +66,14 @@ class RegistrationSerializer(serializers.ModelSerializer):
             'password': {'write_only': True}
         }
 
+    def validate(self, attrs):
+        email = attrs.get('email', '')
+
+        if not email:
+            raise serializers.ValidationError(
+                'User should have email')
+        return attrs
+
     def create(self, validated_data):
         account = User(
             first_name=self.validated_data['first_name'],
@@ -155,4 +163,12 @@ class SetNewPasswordSerializer(serializers.Serializer):
             return user
 
         except Exception as e:
-            raise AuthenticationFailed('The reset links is invalid', 401)
+            raise AuthenticationFailed('The reset link is invalid', 401)
+
+
+class EmailVerificationSerializer(serializers.ModelSerializer):
+    token = serializers.CharField(max_length=555)
+
+    class Meta:
+        model = User
+        fields = ['token']

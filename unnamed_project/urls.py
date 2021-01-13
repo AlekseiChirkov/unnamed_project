@@ -45,7 +45,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     # Apps
-    path('api/auth/', include('users.urls')),
+    path('api/auth/', include('users.urls', namespace='users')),
     path('api/accountant/', include('accountant.urls')),
     path('api/reports/', include('reports.urls')),
     path('api/news/', include('news.urls')),
