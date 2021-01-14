@@ -28,7 +28,7 @@ def excel_data_in_model(request):
         )
         clothing_size.save()
         report = Report.objects.create(
-            user=User.objects.get(id=1),
+            user=request.user,
             tnved=str(i[0]),
             full_product_name=str(i[1]),
             trademark=str(i[2]),
