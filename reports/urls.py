@@ -7,7 +7,7 @@ from reports.views import (
 )
 
 router = routers.DefaultRouter()
-router.register('report', ReportViewSet)
+router.register('reports-list', ReportViewSet)
 router.register('articles', ArticleViewSet)
 router.register('clothing-sizes', ClothingSizeViewSet)
 router.register('excel', ExcelFileViewSet)
