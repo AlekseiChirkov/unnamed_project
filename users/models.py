@@ -4,16 +4,9 @@ import datetime
 from datetime import datetime, timedelta
 from django.db import models
 from django.conf import settings
-from django.dispatch import receiver
-from django.core.mail import EmailMessage
-from django.core.paginator import Paginator
-from django.template.loader import render_to_string
-from django.core.validators import MaxValueValidator, MinValueValidator
-from django.db.models.signals import post_save
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 
-from django.core.mail import EmailMultiAlternatives
-from django_rest_passwordreset.signals import reset_password_token_created
+from .formatchecker import ContentTypeRestrictedFileField
 
 
 class MyUserManager(BaseUserManager):
@@ -65,7 +58,9 @@ class User(AbstractBaseUser, PermissionsMixin):
     state = models.CharField(max_length=128, null=True, blank=True)
     city = models.CharField(max_length=128, null=True, blank=True)
     address = models.CharField(max_length=128, null=True, blank=True)
-    avatar = models.ImageField(upload_to='media/users/avatars')
+    avatar = ContentTypeRestrictedFileField(upload_to='users/uploads/%Y/%m/%d/',
+                                            content_types=['image/jpeg', 'image/png', 'image/jpg'],
+                                            null=True, blank=True)
     is_banned = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
