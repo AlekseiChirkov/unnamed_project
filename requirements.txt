@@ -26,6 +26,8 @@ djangorestframework-jwt==1.11.0
 djangorestframework-simplejwt==4.6.0
 drf-yasg==1.20.0
 et-xmlfile==1.0.1
+excel2json==1.0.1
+excel2json-3==0.1.6
 filelock==3.0.12
 google-api-core==1.24.1
 google-api-python-client==1.12.8
@@ -49,6 +51,7 @@ packaging==20.8
 pandas==1.2.0
 Pillow==7.1.2
 protobuf==3.13.0
+psycopg2==2.8.6
 psycopg2-binary==2.8.6
 pyasn1==0.4.8
 pyasn1-modules==0.2.8
