@@ -10,6 +10,10 @@ class News(models.Model):
     def __str__(self):
         return str(self.title)
 
+    class Meta:
+        verbose_name = 'News'
+        verbose_name_plural = 'News'
+
 
 class NewsImage(models.Model):
     news_post = models.ForeignKey(News, default=None, on_delete=models.CASCADE,
@@ -18,3 +22,7 @@ class NewsImage(models.Model):
 
     def __str__(self):
         return str(self.news_post)
+
+    class Meta:
+        verbose_name = 'News images'
+        verbose_name_plural = 'News images'

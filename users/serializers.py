@@ -55,12 +55,14 @@ class RegistrationSerializer(serializers.ModelSerializer):
         max_length=256,
         read_only=True
     )
+    avatar = serializers.FileField(
+        max_length=20, allow_empty_file=True, use_url=True, required=False)
 
     class Meta:
         model = User
         fields = [
             'id', 'first_name', 'last_name', 'username', 'email', 'birthday', 'gender', 'phone',
-            'address', 'country', 'city', 'state', 'password', 'password2', 'token',
+            'address', 'country', 'city', 'state', 'password', 'password2', 'token', 'avatar',
         ]
         extra_kwargs = {
             'password': {'write_only': True}
@@ -87,6 +89,7 @@ class RegistrationSerializer(serializers.ModelSerializer):
             country=self.validated_data['country'],
             city=self.validated_data['city'],
             state=self.validated_data['state'],
+            avatar=self.validated_data['avatar'],
         )
         password = self.validated_data['password']
         password2 = self.validated_data['password2']
