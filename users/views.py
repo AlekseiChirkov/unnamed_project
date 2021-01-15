@@ -92,7 +92,7 @@ class RequestPasswordResetEmailAPIView(generics.GenericAPIView):
             current_site = get_current_site(
                 request=request).domain
             relativeLink = reverse(
-                'password-reset-confirm', kwargs={'uidb64': uidb64, 'token': token})
+                'users:password-reset-confirm', kwargs={'uidb64': uidb64, 'token': token})
 
             redirect_url = request.data.get('redirect_url', '')
             absurl = 'http://' + current_site + relativeLink

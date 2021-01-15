@@ -33,6 +33,7 @@ class ReportSerializer(serializers.ModelSerializer):
 class ReportReadableSerializer(serializers.ModelSerializer):
     article = ArticleSerializer()
     clothing_size = ClothingSizeSerializer()
+    excel_file = ExcelFileSerializer()
 
     class Meta:
         model = Report
