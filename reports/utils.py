@@ -1,7 +1,6 @@
 import pandas as pd
 
-from reports.models import Report, Article, ClothingSize
-from users.models import User
+from .models import Report, Article, ClothingSize
 
 
 def excel_data_in_model(request):

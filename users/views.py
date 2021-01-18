@@ -4,12 +4,9 @@ import jwt
 from django.conf import settings
 from django.urls import reverse
 from django.http import HttpResponse, JsonResponse, HttpResponsePermanentRedirect
-from django.core.mail import EmailMessage
-from django.shortcuts import redirect, render
+
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
-from django.contrib.auth import login
-from django.utils.encoding import force_bytes, force_text
-from django.template.loader import render_to_string
+
 from django.contrib.sites.shortcuts import get_current_site
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
@@ -19,8 +16,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.generics import RetrieveUpdateAPIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework_simplejwt.tokens import RefreshToken
 
-from .tokens import account_activation_token
 from .permissions import IsOwnerOrReadOnly
 from .serializers import *
 from .utils import Util

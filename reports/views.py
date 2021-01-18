@@ -2,13 +2,13 @@ from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import IsAuthenticated
 
-from reports.serializers import (
+from .serializers import (
     ReportSerializer, ArticleSerializer, ClothingSizeSerializer, ExcelFileSerializer
 )
-from reports.models import (
+from .models import (
     Report, Article, ClothingSize, ExcelFile
 )
-from reports.utils import excel_data_in_model
+from .utils import excel_data_in_model
 
 
 class ExcelFileViewSet(ModelViewSet):
