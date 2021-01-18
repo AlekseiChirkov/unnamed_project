@@ -10,6 +10,7 @@ from .models import User
 
 
 class UserSerializer(serializers.ModelSerializer):
+    email = serializers.EmailField(max_length=200)
     password = serializers.CharField(
         max_length=128,
         min_length=8,
@@ -20,7 +21,7 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = [
             'id', 'first_name', 'last_name', 'username', 'email', 'birthday',
-            'gender', 'phone', 'address', 'country', 'city', 'state', 'password'
+            'gender', 'phone', 'address', 'country', 'city', 'state', 'password', 'avatar'
         ]
         read_only_fields = ['password']
 

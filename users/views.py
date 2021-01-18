@@ -4,6 +4,7 @@ import jwt
 from django.conf import settings
 from django.urls import reverse
 from django.http import HttpResponse, JsonResponse, HttpResponsePermanentRedirect
+from django.utils.encoding import DjangoUnicodeDecodeError, smart_str, smart_bytes
 
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 
