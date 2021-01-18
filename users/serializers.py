@@ -3,8 +3,10 @@ from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.utils.encoding import force_str
 from django.utils.http import urlsafe_base64_decode
 
-from rest_framework import serializers
+from rest_framework import serializers, status
 from rest_framework.exceptions import AuthenticationFailed
+from rest_framework.generics import get_object_or_404
+from rest_framework.response import Response
 
 from .models import User
 
@@ -109,6 +111,12 @@ class LoginSerializer(serializers.Serializer):
     def validate(self, data):
         email = data.get('email', None)
         password = data.get('password', None)
+        user = get_object_or_404(User, email=email)
+
+        if not user.is_active:
+            raise serializers.ValidationError(
+                'Account is not activated, please check your email and click the link to activate.'
+            )
 
         if email is None:
             raise serializers.ValidationError(
