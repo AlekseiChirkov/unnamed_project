@@ -71,6 +71,7 @@ virtualenv="*"
 whitenoise="*"
 pillow="*"
 pandas="*"
+xlrd="*"
 
 [requires]
 python_version = "3.8"
