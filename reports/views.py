@@ -1,3 +1,6 @@
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import filters
+from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import IsAuthenticated
@@ -37,3 +40,15 @@ class ReportViewSet(ModelViewSet):
     # permission_classes = (IsAuthenticated, )
     queryset = Report.objects.filter()
     serializer_class = ReportSerializer
+
+
+class ReportListView(generics.ListAPIView):
+    queryset = Report.objects.all()
+    serializer_class = ReportSerializer
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter]
+    filterset_fields = ['full_product_name', 'trademark',
+                        'article', 'product_type', 'color', 'target_gender',
+                        'clothing_size', 'composition', 'standard_no', 'status']
+    search_fields = ['full_product_name', 'trademark',
+                     'article', 'product_type', 'color', 'target_gender',
+                     'clothing_size', 'composition', 'standard_no', 'status']
