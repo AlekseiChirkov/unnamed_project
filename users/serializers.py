@@ -1,10 +1,29 @@
-from rest_framework import serializers
+from django.contrib import auth
 from django.contrib.auth import authenticate
+from django.contrib.auth.tokens import PasswordResetTokenGenerator
+from django.utils.encoding import smart_str, force_str, smart_bytes, DjangoUnicodeDecodeError
+from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
+from django.core.validators import RegexValidator
+
+from rest_framework import serializers
+from rest_framework.exceptions import AuthenticationFailed
+from rest_framework_simplejwt.tokens import RefreshToken, TokenError
+
+from django.contrib.auth import authenticate
+from django.contrib.auth.tokens import PasswordResetTokenGenerator
+from django.utils.encoding import force_str
+from django.utils.http import urlsafe_base64_decode
+
+from rest_framework import serializers, status
+from rest_framework.exceptions import AuthenticationFailed
+from rest_framework.generics import get_object_or_404
 
 from .models import User
 
 
 class UserSerializer(serializers.ModelSerializer):
+    email = serializers.EmailField(max_length=200)
+
     password = serializers.CharField(
         max_length=128,
         min_length=8,
@@ -15,7 +34,7 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = [
             'id', 'first_name', 'last_name', 'username', 'email', 'birthday',
-            'gender', 'phone', 'address', 'country', 'city', 'state', 'password'
+            'gender', 'phone', 'address', 'country', 'city', 'state', 'password', 'avatar'
         ]
         read_only_fields = ['password']
 
@@ -47,16 +66,26 @@ class RegistrationSerializer(serializers.ModelSerializer):
         max_length=256,
         read_only=True
     )
+    avatar = serializers.FileField(
+        max_length=20, allow_empty_file=True, use_url=True, required=False, allow_null=True)
 
     class Meta:
         model = User
         fields = [
             'id', 'first_name', 'last_name', 'username', 'email', 'birthday', 'gender', 'phone',
-            'address', 'country', 'city', 'state', 'password', 'password2', 'token',
+            'address', 'country', 'city', 'state', 'password', 'password2', 'token', 'avatar',
         ]
         extra_kwargs = {
             'password': {'write_only': True}
         }
+
+    def validate(self, attrs):
+        email = attrs.get('email', '')
+
+        if not email:
+            raise serializers.ValidationError(
+                'User should have email')
+        return attrs
 
     def create(self, validated_data):
         account = User(
@@ -71,6 +100,7 @@ class RegistrationSerializer(serializers.ModelSerializer):
             country=self.validated_data['country'],
             city=self.validated_data['city'],
             state=self.validated_data['state'],
+            avatar=self.validated_data['avatar'],
         )
         password = self.validated_data['password']
         password2 = self.validated_data['password2']
@@ -92,6 +122,12 @@ class LoginSerializer(serializers.Serializer):
     def validate(self, data):
         email = data.get('email', None)
         password = data.get('password', None)
+        user = get_object_or_404(User, email=email)
+
+        if not user.is_active:
+            raise serializers.ValidationError(
+                'Account is not activated, please check your email and click the link to activate.'
+            )
 
         if email is None:
             raise serializers.ValidationError(
@@ -110,3 +146,50 @@ class LoginSerializer(serializers.Serializer):
             )
 
         return user
+
+
+class ResetPasswordEmailRequestSerializer(serializers.Serializer):
+    email = serializers.EmailField(min_length=2)
+    redirect_url = serializers.CharField(max_length=500, required=False)
+
+    class Meta:
+        fields = ['email']
+
+
+class SetNewPasswordSerializer(serializers.Serializer):
+    password = serializers.CharField(
+        min_length=6, max_length=68, write_only=True)
+    token = serializers.CharField(
+        min_length=1, write_only=True)
+    uidb64 = serializers.CharField(
+        min_length=1, write_only=True)
+
+    class Meta:
+        fields = ['password', 'token', 'uidb64']
+
+    def validate(self, attrs):
+        try:
+            password = attrs.get('password')
+            token = attrs.get('token')
+            uidb64 = attrs.get('uidb64')
+
+            id = force_str(urlsafe_base64_decode(uidb64))
+            user = User.objects.get(id=id)
+
+            if not PasswordResetTokenGenerator().check_token(user, token):
+                raise AuthenticationFailed('The reset link is invalid', 401)
+
+            user.set_password(password)
+            user.save()
+            return user
+
+        except Exception as e:
+            raise AuthenticationFailed('The reset link is invalid', 401)
+
+
+class EmailVerificationSerializer(serializers.ModelSerializer):
+    token = serializers.CharField(max_length=555)
+
+    class Meta:
+        model = User
+        fields = ['token']

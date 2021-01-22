@@ -4,16 +4,9 @@ import datetime
 from datetime import datetime, timedelta
 from django.db import models
 from django.conf import settings
-from django.dispatch import receiver
-from django.core.mail import EmailMessage
-from django.core.paginator import Paginator
-from django.template.loader import render_to_string
-from django.core.validators import MaxValueValidator, MinValueValidator
-from django.db.models.signals import post_save
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 
-from django.core.mail import EmailMultiAlternatives
-from django_rest_passwordreset.signals import reset_password_token_created
+from .formatchecker import ContentTypeRestrictedFileField
 
 
 class MyUserManager(BaseUserManager):
@@ -65,6 +58,9 @@ class User(AbstractBaseUser, PermissionsMixin):
     state = models.CharField(max_length=128, null=True, blank=True)
     city = models.CharField(max_length=128, null=True, blank=True)
     address = models.CharField(max_length=128, null=True, blank=True)
+    avatar = ContentTypeRestrictedFileField(upload_to='users/uploads/%Y/%m/%d/',
+                                            content_types=['image/jpeg', 'image/png', 'image/jpg'],
+                                            null=True, blank=True)
     is_banned = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
@@ -98,46 +94,3 @@ class User(AbstractBaseUser, PermissionsMixin):
             'exp': dt.utcfromtimestamp(dt.timestamp())
         }, settings.SECRET_KEY, algorithm='HS256')
         return token.decode('utf-8')
-
-
-@receiver(reset_password_token_created)
-def password_reset_token_created(sender, instance, reset_password_token, *args, **kwargs):
-    # send an e-mail to the user
-    context = {
-        'current_user': reset_password_token.user,
-        'username': reset_password_token.user.username,
-        'email': reset_password_token.user.email,
-        'reset_password_url': "https://vrmates.co/change-password/?token={token}".format(token=reset_password_token.key)
-    }
-
-    # render email text
-    email_html_message = render_to_string('users/user_reset_password.html', context)
-    email_plaintext_message = render_to_string('users/user_reset_password.txt', context)
-
-    msg = EmailMultiAlternatives(
-        # title:
-        "Password Reset for {title}".format(title="Some website title"),
-        # message:
-        email_plaintext_message,
-        # from:
-        "noreply@somehost.local",
-        # to:
-        [reset_password_token.user.email]
-    )
-    msg.attach_alternative(email_html_message, "text/html")
-    msg.send()
-
-
-@receiver(post_save, sender=User)
-def banned_notifications(sender, instance, created, **kwargs):
-    if instance.is_banned:
-        instance.is_active = False
-        mail_subject = 'Your account has been banned | Vrmates team'
-        message = render_to_string('users/account_ban.html', {
-            'user': instance.first_name
-        })
-        to_email = instance.email
-        email = EmailMessage(
-            mail_subject, message, to=[to_email]
-        )
-        email.send()

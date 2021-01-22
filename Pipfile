@@ -70,7 +70,11 @@ urllib3="*"
 virtualenv="*"
 whitenoise="*"
 pillow="*"
-
+pandas="*"
+xlrd="*"
+openpyxl="*"
+django-filter="*"
 
 [requires]
 python_version = "3.8"
+
