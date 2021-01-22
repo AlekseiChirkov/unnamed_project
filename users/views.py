@@ -4,19 +4,15 @@ import jwt
 from django.conf import settings
 from django.urls import reverse
 from django.http import HttpResponse, JsonResponse, HttpResponsePermanentRedirect
-<<<<<<< HEAD
 from django.core.mail import EmailMessage
 from django.shortcuts import redirect, render
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.contrib.auth import login
 from django.utils.encoding import force_bytes, force_text
 from django.template.loader import render_to_string
-=======
 from django.utils.encoding import DjangoUnicodeDecodeError, smart_str, smart_bytes
 
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
-
->>>>>>> e8c7acc5d40449e929e78e32019c72921639da13
 from django.contrib.sites.shortcuts import get_current_site
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
@@ -26,23 +22,17 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.generics import RetrieveUpdateAPIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
-<<<<<<< HEAD
 
 from .tokens import account_activation_token
-=======
+
 from rest_framework_simplejwt.tokens import RefreshToken
 
->>>>>>> e8c7acc5d40449e929e78e32019c72921639da13
 from .permissions import IsOwnerOrReadOnly
 from .serializers import *
 from .utils import Util
 
 
 class CustomRedirect(HttpResponsePermanentRedirect):
-<<<<<<< HEAD
-
-=======
->>>>>>> e8c7acc5d40449e929e78e32019c72921639da13
     allowed_schemes = [os.environ.get('APP_SCHEME'), 'http', 'https']
 
 
@@ -116,8 +106,6 @@ class RequestPasswordResetEmailAPIView(generics.GenericAPIView):
             data = {'email_body': email_body, 'to_email': user.email,
                     'email_subject': 'Reset your password'}
             Util.send_email(data)
-<<<<<<< HEAD
-=======
             response_data = [
                 {
                     'token': token,
@@ -128,7 +116,6 @@ class RequestPasswordResetEmailAPIView(generics.GenericAPIView):
                 }
             ]
             return Response(response_data, status=status.HTTP_200_OK)
->>>>>>> e8c7acc5d40449e929e78e32019c72921639da13
         return Response({'success': 'We have sent you a link to reset your password'}, status=status.HTTP_200_OK)
 
 
@@ -150,10 +137,7 @@ class PasswordTokenCheckGenericAPIView(generics.GenericAPIView):
                     return CustomRedirect(os.environ.get('FRONTEND_URL', '') + '?token_valid=False')
 
             if redirect_url and len(redirect_url) > 3:
-<<<<<<< HEAD
-=======
                 user.is_active = True
->>>>>>> e8c7acc5d40449e929e78e32019c72921639da13
                 return CustomRedirect(
                     redirect_url + '?token_valid=True&message=Credentials Valid&uidb64=' + uidb64 + '&token=' + token)
             else:
@@ -188,11 +172,7 @@ class LoginAPIView(APIView):
 
 
 class UserRetrieveUpdateAPIView(RetrieveUpdateAPIView):
-<<<<<<< HEAD
-    permission_classes = (IsOwnerOrReadOnly, )
-=======
     permission_classes = (IsOwnerOrReadOnly,)
->>>>>>> e8c7acc5d40449e929e78e32019c72921639da13
     serializer_class = UserSerializer
     queryset = User.objects.all()
 
@@ -212,11 +192,7 @@ class UserRetrieveUpdateAPIView(RetrieveUpdateAPIView):
 
 
 class UserUpdateAPIView(APIView):
-<<<<<<< HEAD
-    permission_classes = (IsAuthenticated, )
-=======
     permission_classes = (IsAuthenticated,)
->>>>>>> e8c7acc5d40449e929e78e32019c72921639da13
     serializer_class = UserSerializer
     queryset = User.objects.all()
 
@@ -242,13 +218,6 @@ class CurrentUserView(APIView):
 
 
 class UserListAPIView(generics.ListAPIView):
-<<<<<<< HEAD
-
     queryset = User.objects.all()
     serializer_class = UserSerializer
     search_fields = ('email', )
-=======
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
-    search_fields = ('email',)
->>>>>>> e8c7acc5d40449e929e78e32019c72921639da13

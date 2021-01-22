@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 from django.contrib import auth
 from django.contrib.auth import authenticate
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
@@ -9,7 +9,7 @@ from django.core.validators import RegexValidator
 from rest_framework import serializers
 from rest_framework.exceptions import AuthenticationFailed
 from rest_framework_simplejwt.tokens import RefreshToken, TokenError
-=======
+
 from django.contrib.auth import authenticate
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.utils.encoding import force_str
@@ -18,17 +18,14 @@ from django.utils.http import urlsafe_base64_decode
 from rest_framework import serializers, status
 from rest_framework.exceptions import AuthenticationFailed
 from rest_framework.generics import get_object_or_404
-from rest_framework.response import Response
->>>>>>> e8c7acc5d40449e929e78e32019c72921639da13
+
 
 from .models import User
 
 
 class UserSerializer(serializers.ModelSerializer):
-<<<<<<< HEAD
-=======
     email = serializers.EmailField(max_length=200)
->>>>>>> e8c7acc5d40449e929e78e32019c72921639da13
+
     password = serializers.CharField(
         max_length=128,
         min_length=8,
@@ -39,11 +36,7 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = [
             'id', 'first_name', 'last_name', 'username', 'email', 'birthday',
-<<<<<<< HEAD
             'gender', 'phone', 'address', 'country', 'city', 'state', 'password'
-=======
-            'gender', 'phone', 'address', 'country', 'city', 'state', 'password', 'avatar'
->>>>>>> e8c7acc5d40449e929e78e32019c72921639da13
         ]
         read_only_fields = ['password']
 
@@ -76,11 +69,8 @@ class RegistrationSerializer(serializers.ModelSerializer):
         read_only=True
     )
     avatar = serializers.FileField(
-<<<<<<< HEAD
         max_length=20, allow_empty_file=True, use_url=True, required=False)
-=======
-        max_length=20, allow_empty_file=True, use_url=True, required=False, allow_null=True)
->>>>>>> e8c7acc5d40449e929e78e32019c72921639da13
+
 
     class Meta:
         model = User
@@ -135,15 +125,12 @@ class LoginSerializer(serializers.Serializer):
     def validate(self, data):
         email = data.get('email', None)
         password = data.get('password', None)
-<<<<<<< HEAD
-=======
         user = get_object_or_404(User, email=email)
 
         if not user.is_active:
             raise serializers.ValidationError(
                 'Account is not activated, please check your email and click the link to activate.'
             )
->>>>>>> e8c7acc5d40449e929e78e32019c72921639da13
 
         if email is None:
             raise serializers.ValidationError(
