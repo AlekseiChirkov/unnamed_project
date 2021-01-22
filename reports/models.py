@@ -9,6 +9,13 @@ from django.db import models
 from users.models import User
 
 
+class ExcelFileTemplates(models.Model):
+    excel_file = models.FileField(upload_to='excel_file_templates')
+
+    def __str__(self):
+        return f'{self.excel_file}'
+
+
 class ExcelFile(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     excel_file = models.FileField(upload_to='excel_files')
