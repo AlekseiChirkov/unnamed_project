@@ -55,9 +55,5 @@ class ReportListView(generics.ListAPIView):
     queryset = Report.objects.all()
     serializer_class = ReportSerializer
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
-    filterset_fields = ['full_product_name', 'trademark',
-                        'article', 'product_type', 'color', 'target_gender',
-                        'clothing_size', 'composition', 'standard_no', 'status']
-    search_fields = ['full_product_name', 'trademark',
-                     'article', 'product_type', 'color', 'target_gender',
-                     'clothing_size', 'composition', 'standard_no', 'status']
+    filterset_fields = ['user', 'excel_file']
+    search_fields = ['user', 'excel_file']
