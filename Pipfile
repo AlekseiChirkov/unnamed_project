@@ -70,12 +70,6 @@ urllib3="*"
 virtualenv="*"
 whitenoise="*"
 pillow="*"
-<<<<<<< HEAD
-
-
-[requires]
-python_version = "3.8"
-=======
 pandas="*"
 xlrd="*"
 openpyxl="*"
@@ -83,4 +77,4 @@ django-filter="*"
 
 [requires]
 python_version = "3.8"
->>>>>>> e8c7acc5d40449e929e78e32019c72921639da13
+
