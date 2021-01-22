@@ -67,7 +67,7 @@ class RegistrationSerializer(serializers.ModelSerializer):
         read_only=True
     )
     avatar = serializers.FileField(
-        max_length=20, allow_empty_file=True, use_url=True, required=False)
+        max_length=20, allow_empty_file=True, use_url=True, required=False, allow_null=True)
 
     class Meta:
         model = User
