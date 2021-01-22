@@ -54,4 +54,8 @@ urlpatterns = [
     path('rest-framework/auth/', include('rest_framework.urls')),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+<<<<<<< HEAD
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+=======
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+>>>>>>> e8c7acc5d40449e929e78e32019c72921639da13

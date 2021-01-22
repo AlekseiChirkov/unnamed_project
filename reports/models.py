@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import pandas as pd
 
 from django.db import models
@@ -5,11 +6,15 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from unnamed_project import settings
 
+=======
+from django.db import models
+>>>>>>> e8c7acc5d40449e929e78e32019c72921639da13
 from users.models import User
 
 
 class ExcelFile(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+<<<<<<< HEAD
     excel_file = models.FileField(upload_to='excel_files')
 
     def __str__(self):
@@ -56,27 +61,46 @@ def save_file_data(sender, instance, created, **kwargs):
                 status=str(i[12])
             )
             report.save()
+=======
+    excel_file = models.FileField()
+
+    # def __str__(self):
+    #     return '%s %s' % (self.user, self.excel_file)
+>>>>>>> e8c7acc5d40449e929e78e32019c72921639da13
 
 
 class Article(models.Model):
     article_type = models.CharField(max_length=64)
     article_value = models.CharField(max_length=64)
 
+<<<<<<< HEAD
     def __str__(self):
         return f'{self.article_type}, {self.article_value}'
+=======
+    # def __str__(self):
+    #     return str(self.article_type), str(self.article_value)
+>>>>>>> e8c7acc5d40449e929e78e32019c72921639da13
 
 
 class ClothingSize(models.Model):
     clothing_type = models.CharField(max_length=64)
     clothing_value = models.CharField(max_length=64)
 
+<<<<<<< HEAD
     def __str__(self):
         return f'{self.clothing_type}, {self.clothing_value}'
+=======
+    # def __str__(self):
+    #     return str(self.clothing_type), str(self.clothing_value)
+>>>>>>> e8c7acc5d40449e929e78e32019c72921639da13
 
 
 class Report(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+<<<<<<< HEAD
     excel_file = models.ForeignKey(ExcelFile, on_delete=models.CASCADE)
+=======
+>>>>>>> e8c7acc5d40449e929e78e32019c72921639da13
     tnved = models.CharField(max_length=64)
     full_product_name = models.CharField(max_length=128)
     trademark = models.CharField(max_length=64)
@@ -89,6 +113,15 @@ class Report(models.Model):
     standard_no = models.CharField(max_length=64)
     status = models.CharField(max_length=64)
 
+<<<<<<< HEAD
     def __str__(self):
         return f'{self.user}, {self.excel_file}'
+=======
+    # def __str__(self):
+    #     return '%s %s %s %s %s %s %s %s %s %s %s %s' % (
+    #         self.user, self.tnved, self.full_product_name, self.trademark, self.article,
+    #         self.product_type, self.color, self.target_gender, self.clothing_size,
+    #         self.composition, self.standard_no, self.status
+    #     )
+>>>>>>> e8c7acc5d40449e929e78e32019c72921639da13
 
