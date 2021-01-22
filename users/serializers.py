@@ -1,3 +1,15 @@
+
+from django.contrib import auth
+from django.contrib.auth import authenticate
+from django.contrib.auth.tokens import PasswordResetTokenGenerator
+from django.utils.encoding import smart_str, force_str, smart_bytes, DjangoUnicodeDecodeError
+from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
+from django.core.validators import RegexValidator
+
+from rest_framework import serializers
+from rest_framework.exceptions import AuthenticationFailed
+from rest_framework_simplejwt.tokens import RefreshToken, TokenError
+
 from django.contrib.auth import authenticate
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.utils.encoding import force_str
@@ -6,13 +18,14 @@ from django.utils.http import urlsafe_base64_decode
 from rest_framework import serializers, status
 from rest_framework.exceptions import AuthenticationFailed
 from rest_framework.generics import get_object_or_404
-from rest_framework.response import Response
+
 
 from .models import User
 
 
 class UserSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(max_length=200)
+
     password = serializers.CharField(
         max_length=128,
         min_length=8,
@@ -23,7 +36,7 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = [
             'id', 'first_name', 'last_name', 'username', 'email', 'birthday',
-            'gender', 'phone', 'address', 'country', 'city', 'state', 'password', 'avatar'
+            'gender', 'phone', 'address', 'country', 'city', 'state', 'password'
         ]
         read_only_fields = ['password']
 
@@ -56,7 +69,8 @@ class RegistrationSerializer(serializers.ModelSerializer):
         read_only=True
     )
     avatar = serializers.FileField(
-        max_length=20, allow_empty_file=True, use_url=True, required=False, allow_null=True)
+        max_length=20, allow_empty_file=True, use_url=True, required=False)
+
 
     class Meta:
         model = User

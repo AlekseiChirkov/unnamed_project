@@ -9,7 +9,6 @@ class ExcelFileSerializer(serializers.ModelSerializer):
     class Meta:
         model = ExcelFile
         fields = '__all__'
-        # fields = ['excel_file']
 
 
 class ClothingSizeSerializer(serializers.ModelSerializer):
@@ -37,4 +36,3 @@ class ReportReadableSerializer(serializers.ModelSerializer):
     class Meta:
         model = Report
         fields = '__all__'
-

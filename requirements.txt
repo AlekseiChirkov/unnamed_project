@@ -21,11 +21,20 @@ django-heroku==0.3.1
 django-jet==1.0.8
 django-rest-auth==0.9.5
 django-rest-passwordreset==1.1.0
+<<<<<<< HEAD
+djangorestframework==3.11.0
+=======
 djangorestframework==3.12.2
+>>>>>>> e8c7acc5d40449e929e78e32019c72921639da13
 djangorestframework-jwt==1.11.0
 djangorestframework-simplejwt==4.6.0
 drf-yasg==1.20.0
 et-xmlfile==1.0.1
+<<<<<<< HEAD
+excel2json==1.0.1
+excel2json-3==0.1.6
+=======
+>>>>>>> e8c7acc5d40449e929e78e32019c72921639da13
 filelock==3.0.12
 google-api-core==1.24.1
 google-api-python-client==1.12.8
@@ -33,7 +42,10 @@ google-auth==1.24.0
 google-auth-httplib2==0.0.4
 googleapis-common-protos==1.52.0
 gunicorn==20.0.4
+<<<<<<< HEAD
+=======
 heroku==0.1.4
+>>>>>>> e8c7acc5d40449e929e78e32019c72921639da13
 httplib2==0.18.1
 idna==2.10
 inflection==0.5.1
@@ -50,7 +62,12 @@ packaging==20.8
 pandas==1.2.0
 Pillow==7.1.2
 protobuf==3.13.0
+<<<<<<< HEAD
+psycopg2==2.8.6
+psycopg2-binary==2.8.6
+=======
 psycopg2==2.8.5
+>>>>>>> e8c7acc5d40449e929e78e32019c72921639da13
 pyasn1==0.4.8
 pyasn1-modules==0.2.8
 pycparser==2.20
