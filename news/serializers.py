@@ -29,6 +29,10 @@ class NewsSerializer(serializers.ModelSerializer):
 
 
 class NewsReadableSerializer(serializers.ModelSerializer):
+<<<<<<< HEAD
+=======
+    user = UserSerializer()
+>>>>>>> e8c7acc5d40449e929e78e32019c72921639da13
     images = NewsImageSerializer(many=True, required=False)
 
     class Meta:

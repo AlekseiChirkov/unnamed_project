@@ -27,3 +27,12 @@ class ReportSerializer(serializers.ModelSerializer):
     class Meta:
         model = Report
         fields = '__all__'
+
+
+class ReportReadableSerializer(serializers.ModelSerializer):
+    article = ArticleSerializer()
+    clothing_size = ClothingSizeSerializer()
+
+    class Meta:
+        model = Report
+        fields = '__all__'

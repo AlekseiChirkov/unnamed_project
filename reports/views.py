@@ -1,15 +1,16 @@
 from rest_framework import status
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import filters
+from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
-from rest_framework.permissions import IsAuthenticated
 
-from reports.serializers import (
+from .serializers import (
     ReportSerializer, ArticleSerializer, ClothingSizeSerializer, ExcelFileSerializer
 )
-from reports.models import (
+from .models import (
     Report, Article, ClothingSize, ExcelFile
 )
-# from reports.utils import excel_data_in_model
 
 
 class ExcelFileViewSet(ModelViewSet):
@@ -48,3 +49,15 @@ class ReportViewSet(ModelViewSet):
         report = self.queryset.all()
         serializer = self.serializer_class(report, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class ReportListView(generics.ListAPIView):
+    queryset = Report.objects.all()
+    serializer_class = ReportSerializer
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter]
+    filterset_fields = ['full_product_name', 'trademark',
+                        'article', 'product_type', 'color', 'target_gender',
+                        'clothing_size', 'composition', 'standard_no', 'status']
+    search_fields = ['full_product_name', 'trademark',
+                     'article', 'product_type', 'color', 'target_gender',
+                     'clothing_size', 'composition', 'standard_no', 'status']

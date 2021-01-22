@@ -18,7 +18,11 @@ class MyUserManager(BaseUserManager):
             username=username,
             email=self.normalize_email(email),
         )
+<<<<<<< HEAD
         user.is_active = True
+=======
+        user.is_active = False
+>>>>>>> e8c7acc5d40449e929e78e32019c72921639da13
         user.set_password(password)
         user.save(using=self._db)
         return user
@@ -64,7 +68,11 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_banned = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
+<<<<<<< HEAD
     is_active = models.BooleanField(default=True)
+=======
+    is_active = models.BooleanField(default=False)
+>>>>>>> e8c7acc5d40449e929e78e32019c72921639da13
     is_superuser = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

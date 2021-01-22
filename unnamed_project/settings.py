@@ -11,9 +11,14 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+<<<<<<< HEAD
 # import django_heroku
 # import dj_database_url
 
+=======
+import django_heroku
+import dj_database_url
+>>>>>>> e8c7acc5d40449e929e78e32019c72921639da13
 from decouple import config
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -56,7 +61,11 @@ INSTALLED_APPS = [
     'django_rest_passwordreset',
 
     # django filters
+<<<<<<< HEAD
     # 'django_filters',
+=======
+    'django_filters',
+>>>>>>> e8c7acc5d40449e929e78e32019c72921639da13
 
     # apps
     'users.apps.UsersConfig',
@@ -79,6 +88,12 @@ REST_FRAMEWORK = {
     ),
     'EXCEPTION_HANDLER': 'users.exceptions.user_exception_handler',
     'NON_FIELD_ERRORS_KEY': 'error',
+<<<<<<< HEAD
+=======
+
+    # django-filters setup
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
+>>>>>>> e8c7acc5d40449e929e78e32019c72921639da13
 }
 
 SWAGGER_SETTINGS = {
@@ -139,6 +154,7 @@ WSGI_APPLICATION = 'unnamed_project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
+<<<<<<< HEAD
 # DEPLOY = config('DEPLOY', cast=bool)
 # if DEPLOY:
 #     DATABASES = {
@@ -155,6 +171,24 @@ DATABASES = {
         'PORT': config('DB_PORT')
     }
 }
+=======
+DEPLOY = config('DEPLOY', cast=bool)
+if DEPLOY:
+    DATABASES = {
+        'default': dj_database_url.config(default=config('DATABASE_URL'))
+    }
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': config('DB_NAME'),
+            'USER': config('DB_USER'),
+            'PASSWORD': config('DB_PASS'),
+            'HOST': config('DB_HOST'),
+            'PORT': config('DB_PORT')
+        }
+    }
+>>>>>>> e8c7acc5d40449e929e78e32019c72921639da13
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
@@ -201,6 +235,11 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
+<<<<<<< HEAD
 EMAIL_HOST_USER = 'alex.web.developer.kg@gmail.com'  # config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = 'ffzrsonqhiwrmoha'  # config('EMAIL_HOST_PASSWORD')
+=======
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
+>>>>>>> e8c7acc5d40449e929e78e32019c72921639da13
 EMAIL_PORT = 587
