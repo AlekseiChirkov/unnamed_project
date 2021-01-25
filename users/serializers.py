@@ -1,4 +1,3 @@
-
 from django.contrib import auth
 from django.contrib.auth import authenticate
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
@@ -19,7 +18,6 @@ from rest_framework import serializers, status
 from rest_framework.exceptions import AuthenticationFailed
 from rest_framework.generics import get_object_or_404
 
-
 from .models import User
 
 
@@ -36,7 +34,7 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = [
             'id', 'first_name', 'last_name', 'username', 'email', 'birthday',
-            'gender', 'phone', 'address', 'country', 'city', 'state', 'password'
+            'gender', 'phone', 'address', 'country', 'city', 'state', 'password', 'avatar'
         ]
         read_only_fields = ['password']
 
@@ -69,8 +67,7 @@ class RegistrationSerializer(serializers.ModelSerializer):
         read_only=True
     )
     avatar = serializers.FileField(
-        max_length=20, allow_empty_file=True, use_url=True, required=False)
-
+        max_length=20, allow_empty_file=True, use_url=True, required=False, allow_null=True)
 
     class Meta:
         model = User
