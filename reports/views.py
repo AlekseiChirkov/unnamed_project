@@ -6,11 +6,17 @@ from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
 from .serializers import (
-    ReportSerializer, ArticleSerializer, ClothingSizeSerializer, ExcelFileSerializer
+    ReportSerializer, ArticleSerializer, ClothingSizeSerializer, ExcelFileSerializer, ExcelFileTemplatesSerializer
 )
 from .models import (
-    Report, Article, ClothingSize, ExcelFile
+    Report, Article, ClothingSize, ExcelFile, ExcelFileTemplate
 )
+
+
+class ExcelFileTemplatesViewSet(ModelViewSet):
+    # permission_classes = (IsAuthenticated, )
+    queryset = ExcelFileTemplate.objects.all()
+    serializer_class = ExcelFileTemplatesSerializer
 
 
 class ExcelFileViewSet(ModelViewSet):

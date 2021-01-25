@@ -2,7 +2,7 @@ from django.urls import include, path
 from rest_framework import routers
 
 from reports.views import (
-    ReportViewSet, ArticleViewSet, ClothingSizeViewSet, ExcelFileViewSet, ReportListView
+    ReportViewSet, ArticleViewSet, ClothingSizeViewSet, ExcelFileViewSet, ReportListView, ExcelFileTemplatesViewSet
 )
 
 router = routers.DefaultRouter()
@@ -10,6 +10,7 @@ router.register('reports-list', ReportViewSet)
 router.register('articles', ArticleViewSet)
 router.register('clothing-sizes', ClothingSizeViewSet)
 router.register('excel', ExcelFileViewSet)
+router.register('excel-templates', ExcelFileTemplatesViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
