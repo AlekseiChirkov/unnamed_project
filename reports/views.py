@@ -25,13 +25,10 @@ class ExcelFileViewSet(ModelViewSet):
     serializer_class = ExcelFileSerializer
 
     def create(self, request, *args, **kwargs):
-        # excel_data_in_model(request)
         serializer = self.serializer_class(data=request.data)
-        serializer.is_valid()
+        serializer.is_valid(raise_exception=True)
         serializer.save(user=self.request.user)
-        return Response({
-            'success': "File loaded successfully.",
-        })
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class ClothingSizeViewSet(ModelViewSet):
