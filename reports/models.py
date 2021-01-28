@@ -17,7 +17,7 @@ class ExcelFileTemplate(models.Model):
 
 
 class ExcelFile(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
     excel_file = models.FileField(upload_to='excel_files')
 
     def __str__(self):
