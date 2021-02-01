@@ -22,7 +22,6 @@ def save_file_data(sender, instance, created, **kwargs):
         cleaned_rows = [i for i in rows if i]
         print(cleaned_rows)
         for i in cleaned_rows:
-            print(i[0])
             article = Article.objects.create(
                 article_type=str(i[3]),
                 article_value=str(i[4])
