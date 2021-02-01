@@ -1,15 +1,17 @@
-from rest_framework import status
 from django_filters.rest_framework import DjangoFilterBackend
+
+from rest_framework import status
 from rest_framework import filters
 from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
 from .serializers import (
-    ReportSerializer, ArticleSerializer, ClothingSizeSerializer, ExcelFileSerializer, ExcelFileTemplatesSerializer
+    ReportSerializer, ArticleSerializer, ClothingSizeSerializer, ExcelFileSerializer, ExcelFileTemplatesSerializer,
+    AddProductToExcelFileSerializer
 )
 from .models import (
-    Report, Article, ClothingSize, ExcelFile, ExcelFileTemplate
+    Report, Article, ClothingSize, ExcelFile, ExcelFileTemplate, AddProductToExcelFile
 )
 
 
@@ -60,3 +62,17 @@ class ReportListView(generics.ListAPIView):
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
     filterset_fields = ['user', 'excel_file']
     search_fields = ['user', 'excel_file']
+
+
+class AddProductToExcelFileViewSet(ModelViewSet):
+    # permission_classes = (IsAuthenticated, )
+    queryset = AddProductToExcelFile.objects.all()
+    serializer_class = AddProductToExcelFileSerializer
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        for i, j in serializer.data.items():
+            print(f"{str(i)}" + ": " + f"{str(j)}")
+        return Response(serializer.data, status=status.HTTP_200_OK)
