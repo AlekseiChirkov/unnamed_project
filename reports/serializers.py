@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 from reports.models import (
-    Report, Article, ClothingSize, ExcelFile, ExcelFileTemplate, AddProductToExcelFile
+    Report, ExcelFile, ExcelFileTemplate, AddProductToExcelFile
 )
 
 
@@ -17,18 +17,6 @@ class ExcelFileSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class ClothingSizeSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ClothingSize
-        fields = '__all__'
-
-
-class ArticleSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Article
-        fields = '__all__'
-
-
 class ReportSerializer(serializers.ModelSerializer):
     class Meta:
         model = Report
@@ -36,9 +24,6 @@ class ReportSerializer(serializers.ModelSerializer):
 
 
 class ReportReadableSerializer(serializers.ModelSerializer):
-    article = ArticleSerializer()
-    clothing_size = ClothingSizeSerializer()
-
     class Meta:
         model = Report
         fields = '__all__'

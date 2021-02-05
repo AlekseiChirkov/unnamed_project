@@ -1,9 +1,9 @@
 import pandas as pd
 
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, pre_save
 from django.dispatch import receiver
-from unnamed_project import settings
 
+from unnamed_project import settings
 
 from reports.models import *
 
@@ -20,29 +20,20 @@ def save_file_data(sender, instance, created, **kwargs):
         df_list = df.values.tolist()
         rows = [[str(j) for j in i] for i in df_list]
         cleaned_rows = [i for i in rows if i]
-        print(cleaned_rows)
         for i in cleaned_rows:
-            article = Article.objects.create(
-                article_type=str(i[3]),
-                article_value=str(i[4])
-            )
-            article.save()
-            clothing_size = ClothingSize.objects.create(
-                clothing_type=str(i[8]),
-                clothing_value=str(i[9])
-            )
-            clothing_size.save()
             report = Report.objects.create(
                 user=instance.user,
                 excel_file=instance,
                 tnved=str(i[0]),
                 full_product_name=str(i[1]),
                 trademark=str(i[2]),
-                article=article,
+                article_type=str(i[3]),
+                article_value=str(i[4]),
                 product_type=str(i[5]),
                 color=str(i[6]),
                 target_gender=str(i[7]),
-                clothing_size=clothing_size,
+                clothing_type=str(i[8]),
+                clothing_value=str(i[9]),
                 composition=str(i[10]),
                 standard_no=str(i[11]),
                 status=str(i[12])

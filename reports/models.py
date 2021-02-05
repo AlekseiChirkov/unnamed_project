@@ -5,6 +5,7 @@ from users.models import User
 
 class ExcelFileTemplate(models.Model):
     excel_file = models.FileField(upload_to='excel_file_templates')
+    file_name = models.CharField(max_length=64, default='')
 
     def __str__(self):
         return f'{self.excel_file}'
@@ -13,22 +14,14 @@ class ExcelFileTemplate(models.Model):
 class ExcelFile(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
     excel_file = models.FileField(upload_to='excel_files', blank=True, null=True)
+    file_name = models.CharField(max_length=64, default='')
 
     def __str__(self):
         return f'{self.user}, {self.excel_file}'
 
-
-class Article(models.Model):
-    article_type = models.CharField(max_length=64)
-    article_value = models.CharField(max_length=64)
-
-    def __str__(self):
-        return f'{self.article_type}, {self.article_value}'
-
-
-class ClothingSize(models.Model):
-    clothing_type = models.CharField(max_length=64)
-    clothing_value = models.CharField(max_length=64)
+    def save(self, *args, **kwargs):
+        self.file_name = self.excel_file.name
+        super(ExcelFile, self).save(*args, **kwargs)
 
 
 class Report(models.Model):
@@ -37,11 +30,13 @@ class Report(models.Model):
     tnved = models.CharField(max_length=64)
     full_product_name = models.CharField(max_length=128)
     trademark = models.CharField(max_length=64)
-    article = models.ForeignKey(Article, on_delete=models.CASCADE)
+    article_type = models.CharField(max_length=64)
+    article_value = models.CharField(max_length=64)
     product_type = models.CharField(max_length=64)
     color = models.CharField(max_length=64)
     target_gender = models.CharField(max_length=64)
-    clothing_size = models.ForeignKey(ClothingSize, on_delete=models.CASCADE)
+    clothing_type = models.CharField(max_length=64)
+    clothing_value = models.CharField(max_length=64)
     composition = models.CharField(max_length=64)
     standard_no = models.CharField(max_length=64)
     status = models.CharField(max_length=64)

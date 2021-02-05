@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from reports.models import ExcelFileTemplate, ExcelFile, Report, Article, ClothingSize
+from reports.models import ExcelFileTemplate, ExcelFile, Report
 
 
 class ExcelFileTemplatesAdmin(admin.ModelAdmin):
@@ -24,22 +24,6 @@ class ReportAdmin(admin.ModelAdmin):
         model = Report
 
 
-class ArticleAdmin(admin.ModelAdmin):
-    list_display = [field.name for field in Article._meta.fields]
-
-    class Meta:
-        model = Article
-
-
-class ClothingSizeAdmin(admin.ModelAdmin):
-    list_display = [field.name for field in ClothingSize._meta.fields]
-
-    class Meta:
-        model = ClothingSize
-
-
 admin.site.register(ExcelFileTemplate, ExcelFileTemplatesAdmin)
 admin.site.register(ExcelFile, ExcelFileAdmin)
 admin.site.register(Report, ReportAdmin)
-admin.site.register(Article, ArticleAdmin)
-admin.site.register(ClothingSize, ClothingSizeAdmin)
